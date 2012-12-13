@@ -21,51 +21,74 @@ void draw() {
 
   background(255);
 
+  translate(x,y);
+  rotate(window.rotate);
+  scale(window.scale);
+
+  int numberOfPoints;
+  float rot_value;
+  float angle = 0;
+  float sectionArcLenght;
+
+  for (int sections = 0; sections < 5; sections++){
+	if (window.print_vertexesFlag) println("section " + (sections+1) + " ///////////////");
+
   if (window.show_vertexes){
     stroke(0);
     fill(200);
   }
   else {
-    stroke(0,0,255);
-    fill(0,0,255);
-  }
-  translate(x,y);
-  rotate(window.rotate);
-  scale(window.scale);
-
-  int numberOfPoints = int(window.detailLevel) + 1;
-  float rot_value = window.arc_length / (2 * numberOfPoints);
-  float angle = 0;
-
-  beginShape(TRIANGLE_STRIP); 
-
-  float px = cos(angle) * innerRadius;
-  float py = sin(angle) * innerRadius;
-  vertex(px, py);
-  if (window.print_vertexesFlag) println("vertex 1: "+px+" , "+py);
-
-  //rect(px, py, 5, 5);
-
-  for (int i = 0; i < numberOfPoints; i++) {
-    px = cos(angle) * outerRadius;
-    py = sin(angle) * outerRadius;
-    if (window.print_vertexesFlag) println("vertex "+ (i+1)*2 +": "+px+" , "+py);
-    angle += rot_value;
-    vertex(px, py);
-    px = cos(angle) * innerRadius;
-    py = sin(angle) * innerRadius;
-    vertex(px, py); 
-    if (window.print_vertexesFlag) println("vertex "+ ((i+1)*2+1) +": "+px+" , "+py);
-    angle += rot_value;
+    stroke(0,0,55 + 40 * sections+1);
+    fill(0,0,55 + 40 * sections+1);
   }
 
-    angle -= rot_value;
-    px = cos(angle) * outerRadius;
-    py = sin(angle) * outerRadius;
-    vertex(px, py); 
-  
-  endShape();
-  if (window.print_vertexesFlag) println("vertex "+ (numberOfPoints*2+2) +": "+px+" , "+py);
+    if (sections == 0) {
+        sectionArcLenght = window.arc_length1;
+    }
+    else if (sections == 1) {
+        sectionArcLenght = window.arc_length2;
+    }
+    else if (sections == 2) {
+        sectionArcLenght = window.arc_length3;
+    }
+    else if (sections == 3) {
+        sectionArcLenght = window.arc_length4;
+    }
+    else if (sections == 4) {
+        sectionArcLenght = window.arc_length5;
+    }
+    numberOfPoints = int(window.detailLevel) * sectionArcLenght;
+    rot_value = sectionArcLenght / (2 * numberOfPoints);
+		beginShape(TRIANGLE_STRIP); 
+	
+		float px = cos(angle) * innerRadius;
+		float py = sin(angle) * innerRadius;
+		vertex(px, py);
+		if (window.print_vertexesFlag) println("vertex 1: "+px+" , "+py);
+	
+		//rect(px, py, 5, 5);
+	
+		for (int i = 0; i < numberOfPoints; i++) {
+			px = cos(angle) * outerRadius;
+			py = sin(angle) * outerRadius;
+			if (window.print_vertexesFlag) println("vertex "+ (i+1)*2 +": "+px+" , "+py);
+			angle += rot_value;
+			vertex(px, py);
+			px = cos(angle) * innerRadius;
+			py = sin(angle) * innerRadius;
+			vertex(px, py); 
+			if (window.print_vertexesFlag) println("vertex "+ ((i+1)*2+1) +": "+px+" , "+py);
+			angle += rot_value;
+		}
+	
+			angle -= rot_value;
+			px = cos(angle) * outerRadius;
+			py = sin(angle) * outerRadius;
+			vertex(px, py); 
+		
+		endShape();
+		if (window.print_vertexesFlag) println("vertex "+ (numberOfPoints*2+2) +": "+px+" , "+py);
+  }
 
   window.print_vertexesFlag = false
 
@@ -78,7 +101,11 @@ void draw() {
 
 <script type="text/javascript">
 
-window.arc_length = 3.14/2;
+window.arc_length1 = 0.65;
+window.arc_length2 = 0.65;
+window.arc_length3 = 0.65;
+window.arc_length4 = 0.65;
+window.arc_length5 = 0.65;
 window.rotate = 3.14/2;
 window.scale = 1;
 window.detailLevel = 20;
@@ -94,7 +121,11 @@ window.print_vertexes = function(){
 
 window.onload = function() {
   var gui = new dat.GUI();
-  gui.add(window, 'arc_length', 0, 3.14 * 2 + 0.2);
+  gui.add(window, 'arc_length1', 0, 3.14 * 2 + 0.2);
+  gui.add(window, 'arc_length2', 0, 3.14 * 2 + 0.2);
+  gui.add(window, 'arc_length3', 0, 3.14 * 2 + 0.2);
+  gui.add(window, 'arc_length4', 0, 3.14 * 2 + 0.2);
+  gui.add(window, 'arc_length5', 0, 3.14 * 2 + 0.2);
   gui.add(window, 'rotate', 0, 3.14 * 2);
   gui.add(window, 'scale', 0, 5);
   gui.add(window, 'inner_radius', 0, 200);
