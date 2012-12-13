@@ -42,11 +42,11 @@ void draw() {
   float px = cos(angle) * innerRadius;
   float py = sin(angle) * innerRadius;
   vertex(px, py);
-  if (window.print_vertexesFlag) println("pt. 1: "+px+" , "+py);
+  if (window.print_vertexesFlag) println("vertex 1: "+px+" , "+py);
 
   //rect(px, py, 5, 5);
 
-  for (int i = 0; i < numberOfPoints; i++) {
+  for (int i = 0; i <= numberOfPoints; i++) {
     px = cos(angle) * outerRadius;
     py = sin(angle) * outerRadius;
     if (window.print_vertexesFlag) println("vertex "+ (i+1)*2 +": "+px+" , "+py);
@@ -58,14 +58,9 @@ void draw() {
     if (window.print_vertexesFlag) println("vertex "+ ((i+1)*2+1) +": "+px+" , "+py);
     angle += rot_value;
   }
-
-  angle -= rot_value/2;
-
-  px = cos(angle) * outerRadius;
-  py = sin(angle) * outerRadius;
-  vertex(px, py);
+  
   endShape();
-  if (window.print_vertexesFlag) println("vertex "+ (numberOfPoints*2+2) +": "+px+" , "+py);
+  if (window.print_vertexesFlag) println("vertex "+ (numberOfPoints*2+4) +": "+px+" , "+py);
 
   window.print_vertexesFlag = false
 
