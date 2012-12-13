@@ -1,0 +1,107 @@
+<script type="text/javascript" src="libs/dat.gui.min.js"></script>
+
+<script src="libs/processing-1.4.0.min.js"></script>
+<canvas id="pjs"> </canvas>
+<script type="application/processing" data-processing-target="pjs">
+int x;
+int y;
+float outerRadius;
+float innerRadius;
+
+void setup() {
+  size(window.innerWidth, window.innerHeight);
+  background(204);
+  x = width/2;
+  y = height/2;
+}
+
+void draw() {
+  outerRadius = window.outer_radius;
+  innerRadius = window.inner_radius;
+
+  background(255);
+
+  if (window.show_vertexes){
+    stroke(0);
+    fill(200);
+  }
+  else {
+    stroke(0,0,255);
+    fill(0,0,255);
+  }
+  translate(x,y);
+  rotate(window.rotate);
+  scale(window.scale);
+
+  int numberOfPoints = int(window.detailLevel) + 1;
+  float rot_value = window.arc_length / (2 * numberOfPoints);
+  float angle = 0;
+
+  beginShape(TRIANGLE_STRIP); 
+
+  float px = cos(angle) * innerRadius;
+  float py = sin(angle) * innerRadius;
+  vertex(px, py);
+  if (window.print_vertexesFlag) println("pt. 1: "+px+" , "+py);
+
+  //rect(px, py, 5, 5);
+
+  for (int i = 0; i < numberOfPoints; i++) {
+    px = cos(angle) * outerRadius;
+    py = sin(angle) * outerRadius;
+    if (window.print_vertexesFlag) println("vertex "+ (i+1)*2 +": "+px+" , "+py);
+    angle += rot_value;
+    vertex(px, py);
+    px = cos(angle) * innerRadius;
+    py = sin(angle) * innerRadius;
+    vertex(px, py); 
+    if (window.print_vertexesFlag) println("vertex "+ ((i+1)*2+1) +": "+px+" , "+py);
+    angle += rot_value;
+  }
+
+  angle -= rot_value/2;
+
+  px = cos(angle) * outerRadius;
+  py = sin(angle) * outerRadius;
+  vertex(px, py);
+  endShape();
+  if (window.print_vertexesFlag) println("vertex "+ (numberOfPoints*2+2) +": "+px+" , "+py);
+
+  window.print_vertexesFlag = false
+
+  // some debug points
+  //rect(px, py, 5, 5);
+  //rect(x, y, 5, 5);
+}
+
+</script>
+
+<script type="text/javascript">
+
+window.arc_length = 3.14/2;
+window.rotate = 3.14/2;
+window.scale = 1;
+window.detailLevel = 20;
+window.show_vertexes = true;
+window.inner_radius = 50;
+window.outer_radius = 200;
+window.print_vertexesFlag = false;
+
+window.print_vertexes = function(){
+  window.print_vertexesFlag = true;
+}
+
+
+window.onload = function() {
+  var gui = new dat.GUI();
+  gui.add(window, 'arc_length', 0, 3.14 * 2);
+  gui.add(window, 'rotate', 0, 3.14 * 2);
+  gui.add(window, 'scale', 0, 5);
+  gui.add(window, 'inner_radius', 0, 200);
+  gui.add(window, 'outer_radius', 0, 200);
+  gui.add(window, 'detailLevel', 1, 100);
+  gui.add(window, 'show_vertexes');
+  gui.add(window, 'print_vertexes');
+};
+    
+</script>
