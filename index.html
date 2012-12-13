@@ -46,7 +46,7 @@ void draw() {
 
   //rect(px, py, 5, 5);
 
-  for (int i = 0; i <= numberOfPoints; i++) {
+  for (int i = 0; i < numberOfPoints; i++) {
     px = cos(angle) * outerRadius;
     py = sin(angle) * outerRadius;
     if (window.print_vertexesFlag) println("vertex "+ (i+1)*2 +": "+px+" , "+py);
@@ -58,6 +58,11 @@ void draw() {
     if (window.print_vertexesFlag) println("vertex "+ ((i+1)*2+1) +": "+px+" , "+py);
     angle += rot_value;
   }
+
+    angle -= rot_value;
+    px = cos(angle) * outerRadius;
+    py = sin(angle) * outerRadius;
+    vertex(px, py); 
   
   endShape();
   if (window.print_vertexesFlag) println("vertex "+ (numberOfPoints*2+4) +": "+px+" , "+py);
@@ -89,7 +94,7 @@ window.print_vertexes = function(){
 
 window.onload = function() {
   var gui = new dat.GUI();
-  gui.add(window, 'arc_length', 0, 3.14 * 2);
+  gui.add(window, 'arc_length', 0, 3.14 * 2 + 0.2);
   gui.add(window, 'rotate', 0, 3.14 * 2);
   gui.add(window, 'scale', 0, 5);
   gui.add(window, 'inner_radius', 0, 200);
