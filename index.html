@@ -31,7 +31,7 @@ void draw() {
   float sectionArcLenght;
 
   for (int sections = 0; sections < 5; sections++){
-	if (window.print_vertexesFlag) println("section " + (sections+1) + " ///////////////");
+	if (window.print_vertexesFlag) println("//section " + (sections+1) + " ///////////////");
 
   if (window.show_vertexes){
     stroke(0);
@@ -57,27 +57,30 @@ void draw() {
     else if (sections == 4) {
         sectionArcLenght = window.arc_length5;
     }
-    numberOfPoints = int(window.detailLevel) * sectionArcLenght;
+    numberOfPoints = int(window.detailLevel * sectionArcLenght);
     rot_value = sectionArcLenght / (2 * numberOfPoints);
 		beginShape(TRIANGLE_STRIP); 
 	
 		float px = cos(angle) * innerRadius;
 		float py = sin(angle) * innerRadius;
 		vertex(px, py);
-		if (window.print_vertexesFlag) println("vertex 1: "+px+" , "+py);
+		//if (window.print_vertexesFlag) println("vertex 1: "+px+"f , "+py+"f , 0.0f");
+		if (window.print_vertexesFlag) println(px+"f , "+py+"f , 0.0f");
 	
 		//rect(px, py, 5, 5);
 	
 		for (int i = 0; i < numberOfPoints; i++) {
 			px = cos(angle) * outerRadius;
 			py = sin(angle) * outerRadius;
-			if (window.print_vertexesFlag) println("vertex "+ (i+1)*2 +": "+px+" , "+py);
+			//if (window.print_vertexesFlag) println("vertex "+ (i+1)*2 +": "+px+"f , "+py+"f , 0.0f");
+			if (window.print_vertexesFlag) println(px+"f , "+py+"f , 0.0f");
 			angle += rot_value;
 			vertex(px, py);
 			px = cos(angle) * innerRadius;
 			py = sin(angle) * innerRadius;
 			vertex(px, py); 
-			if (window.print_vertexesFlag) println("vertex "+ ((i+1)*2+1) +": "+px+" , "+py);
+			//if (window.print_vertexesFlag) println("vertex "+ ((i+1)*2+1) +": "+px+"f , "+py+"f , 0.0f");
+			if (window.print_vertexesFlag) println(px+"f , "+py+"f , 0.0f");
 			angle += rot_value;
 		}
 	
@@ -87,7 +90,8 @@ void draw() {
 			vertex(px, py); 
 		
 		endShape();
-		if (window.print_vertexesFlag) println("vertex "+ (numberOfPoints*2+2) +": "+px+" , "+py);
+		//if (window.print_vertexesFlag) println("vertex "+ (numberOfPoints*2+2) +": "+px+"f , "+py+"f , 0.0f");
+		if (window.print_vertexesFlag) println(px+"f , "+py+"f , 0.0f");
   }
 
   window.print_vertexesFlag = false
